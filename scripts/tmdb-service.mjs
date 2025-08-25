@@ -1,9 +1,10 @@
-const API_KEY = "3e9b85d24bce4c4cd45845190834a1f6";
+const API_TOKEN =
+  "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzZTliODVkMjRiY2U0YzRjZDQ1ODQ1MTkwODM0YTFmNiIsIm5iZiI6MTc1NjE0MTg0MS4xOTI5OTk4LCJzdWIiOiI2OGFjOTkxMWI4M2FiMWI5Yzc2NzBiMTEiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.33pCuXkv-1zv2Nh6ZlcvmukJeLV20FNckPsI_1Oz_Ec";
 const BASE_URL = "https://api.themoviedb.org/3";
 
 // Axios Configuration
 const headers = {
-  Authorization: "Bearer " + API_KEY,
+  Authorization: "Bearer " + API_TOKEN,
 };
 
 const axiosInstance = axios.create({
