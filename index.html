@@ -11,6 +11,7 @@
     <link rel="icon" type="image/x-icon" href="./images/m-explorer.png">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script defer type="module" src="./scripts/tmdb-service.mjs"></script>
+    <script defer type="module" src="./scripts/utilities.mjs"></script>
     <script defer type="module" src="./scripts/index.mjs"></script>
     <title>Movies Explorer</title>
 </head>
@@ -62,30 +63,6 @@
         </div>
     </section>
 
-    <!-- Compact Header for Details View -->
-    <header id="compactHeader" class="bg-gray-900 bg-opacity-95 backdrop-blur-sm p-4 sticky top-0 z-20 hidden">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <div class="flex items-center">
-                <button id="backBtnCompact" title="Back Btn Compact"
-                    class="text-white hover:text-gray-300 mr-4 transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
-                        </path>
-                    </svg>
-                </button>
-                <h1 class="text-2xl font-bold text-white">MExplorer</h1>
-            </div>
-            <div class="relative max-w-md w-full">
-                <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" fill="none"
-                    stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
-                <input type="text" id="searchInputCompact" placeholder="Search movies..."
-                    class="w-full pl-10 pr-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            </div>
-        </div>
-    </header>
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto p-4 pt-8">
         <!-- Loading Spinner -->
@@ -210,7 +187,24 @@
                 </div>
             </div>
         </div>
-
+        <!-- Trailer Modal -->
+        <div id="trailerModal"
+            class="fixed inset-0 bg-black bg-opacity-75 modal-backdrop flex items-center justify-center z-50 p-4 hidden">
+            <div class="bg-gray-900 rounded-lg max-w-4xl w-full max-h-full overflow-hidden">
+                <div class="flex justify-between items-center p-4 border-b border-gray-700">
+                    <h3 id="trailerTitle" class="text-white text-lg font-semibold"></h3>
+                    <button title="Trailer Modal" id="closeTrailerBtn" class="text-gray-400 hover:text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="relative">
+                    <iframe id="trailerFrame" class="w-full h-96" allowfullscreen title="Movie Trailer"></iframe>
+                </div>
+            </div>
+        </div>
 
 
     </main>
