@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="./styles/app.css">
     <link rel="icon" type="image/x-icon" href="./images/m-explorer.png">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script defer type="module" src="./scripts/tmdb-service.mjs"></script>
     <script defer type="module" src="./scripts/index.mjs"></script>
     <title>Movies Explorer</title>
 </head>
@@ -92,7 +93,27 @@
             <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto"></div>
             <p class="text-white mt-4">Loading...</p>
         </div>
+        <!-- Home View -->
+        <div id="homeView">
+            <!-- Search Results -->
+            <section id="searchSection" class="mb-8 hidden">
+                <h2 id="searchTitle" class="text-2xl font-bold text-white mb-4"></h2>
+                <div id="searchResults" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4"></div>
+                <p id="noResults" class="text-gray-400 text-center py-8 hidden">No movies found</p>
+            </section>
 
+            <!-- Trending Movies -->
+            <section id="trendingSection" class="mb-8">
+                <h2 class="text-3xl font-bold text-white mb-6 text-center">🔥 Trending Today</h2>
+                <div id="trendingMovies" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6"></div>
+            </section>
+
+            <!-- Popular Movies -->
+            <section id="popularSection" class="mb-8">
+                <h2 class="text-3xl font-bold text-white mb-6 text-center">⭐ Popular Movies</h2>
+                <div id="popularMovies" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6"></div>
+            </section>
+        </div>
     </main>
 
 </body>
