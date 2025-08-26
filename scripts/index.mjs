@@ -87,15 +87,159 @@ const renderMovies = (movies, containerId) => {
   });
 };
 
+const openMovieDetails = async (movie) => {
+  currentMovie = movie;
+  showLoading(true);
 
+  const details = await fetchMovieDetails(movie.id);
+  console.log(details);
 
+  if (!details) {
+    showLoading(false);
+    return;
+  }
 
+  currentVideos =
+    details.videos && details.videos.results ? details.videos.results : [];
+  const $movieBackdrop = document.querySelector("#movieBackdrop");
+  // Update backdrop
+  if (details.backdrop_path) {
+    $movieBackdrop.style.backgroundImage =
+      "url(" + BACKDROP_BASE_URL + details.backdrop_path + ")";
+    $movieBackdrop.classList.remove("hidden");
+  } else {
+    $movieBackdrop.classList.add("hidden");
+  }
 
+  // Update movie info
+  document.getElementById("movieTitle").textContent = details.title;
+  document.getElementById("movieTagline").textContent = details.tagline || "";
+  document.getElementById("moviePoster").src = details.poster_path
+    ? IMAGE_BASE_URL + details.poster_path
+    : "https://via.placeholder.com/400x600/374151/ffffff?text=No+Image";
+  document.getElementById("movieRating").textContent =
+    details.vote_average.toFixed(1) + "/10";
+  document.getElementById("movieVotes").textContent =
+    "(" + details.vote_count + " votes)";
+  document.getElementById("movieDate").textContent = formatDate(
+    details.release_date
+  );
+  document.getElementById("movieRuntime").textContent =
+    details.runtime + " minutes";
+  document.getElementById("movieBudget").textContent = formatCurrency(
+    details.budget
+  );
+  document.getElementById("movieRevenue").textContent = formatCurrency(
+    details.revenue
+  );
+  document.getElementById("movieOverview").textContent = details.overview;
 
+  // Update genres
+  const $genresContainer = document.getElementById("movieGenres");
+  $genresContainer.innerHTML = "";
+  details.genres.forEach((genre) => {
+    const $genreSpan = document.createElement("span");
+    $genreSpan.className =
+      "px-3 py-1 bg-yellow-500 text-black rounded-full text-sm";
+    $genreSpan.textContent = genre.name;
+    $genresContainer.appendChild($genreSpan);
+  });
+
+  // Update production companies
+  const $companiesContainer = document.getElementById("productionCompanies");
+  $companiesContainer.innerHTML = "";
+  details.production_companies.forEach((company) => {
+    const $companyDiv = document.createElement("span");
+    $companyDiv.className = "text-gray-300 block";
+    $companyDiv.textContent = company.name;
+    $companiesContainer.appendChild($companyDiv);
+  });
+
+  // Update countries
+  const $countriesContainer = document.getElementById("productionCountries");
+  $countriesContainer.innerHTML = "";
+  details.production_countries.forEach((country) => {
+    const $countrySpan = document.createElement("span");
+    $countrySpan.className = "text-gray-300";
+    $countrySpan.textContent = country.name;
+    $countriesContainer.appendChild($countrySpan);
+  });
+
+  // Handle trailers
+  const trailers = currentVideos.filter((video) => {
+    return video.type === "Trailer";
+  });
+  const mainTrailer =
+    trailers.find((video) => {
+      return video.site === "YouTube";
+    }) || trailers[0];
+
+  const $trailerBtnEl = document.getElementById("trailerBtn");
+  if (mainTrailer) {
+    $trailerBtnEl.classList.remove("hidden");
+    $trailerBtnEl.onclick = () => {
+      openTrailer(mainTrailer);
+    };
+  } else {
+    $trailerBtnEl.classList.add("hidden");
+  }
+
+  // Additional trailers
+  const $additionalTrailersSection = document.getElementById(
+    "additionalTrailersSection"
+  );
+  const $additionalTrailersContainer =
+    document.getElementById("additionalTrailers");
+
+  if (trailers.length > 1) {
+    $additionalTrailersSection.classList.remove("hidden");
+    $additionalTrailersContainer.innerHTML = "";
+
+    trailers.slice(1).forEach((video) => {
+      const $trailerBtn = document.createElement("button");
+      $trailerBtn.className =
+        "block w-full text-left p-3 bg-gray-800 hover:bg-gray-700 text-white rounded-lg";
+      $trailerBtn.innerHTML =
+        '<div class="flex items-center">' +
+        '<svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">' +
+        '<path d="M6.5 5.5v9l7.5-4.5-7.5-4.5z"/>' +
+        "</svg>" +
+        video.name +
+        "</div>";
+      $trailerBtn.onclick = function () {
+        openTrailer(video);
+      };
+      $additionalTrailersContainer.appendChild($trailerBtn);
+    });
+  } else {
+    $additionalTrailersSection.classList.add("hidden");
+  }
+
+  $homeView.classList.add("hidden");
+  $heroContent.classList.add("hidden");
+  $detailsView.classList.remove("hidden");
+  $backBtn.classList.remove("hidden");
+  currentView = "details";
+  showLoading(false);
+};
+
+const openTrailer = (video) => {
+  var videoUrl = getVideoUrl(video.site, video.key, true);
+  if (!videoUrl) return;
+
+  document.getElementById("trailerTitle").textContent = video.name;
+  document.getElementById("trailerFrame").src = videoUrl;
+  $trailerModal.classList.remove("hidden");
+};
+
+const closeTrailer = () => {
+  document.getElementById("trailerFrame").src = "";
+  $trailerModal.classList.add("hidden");
+};
 
 const goHome = () => {
   const $movieBackdrop = document.querySelector("#movieBackdrop");
-  
+
   $detailsView.classList.add("hidden");
   $homeView.classList.remove("hidden");
   $heroContent.classList.remove("hidden");
@@ -108,7 +252,6 @@ const goHome = () => {
   document.getElementById("popularSection").classList.remove("hidden");
   currentView = "home";
 };
-
 
 const handleSearchInput = (inputElement) => {
   const query = inputElement.value;
