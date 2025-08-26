@@ -40,3 +40,17 @@
 .backdrop-blur-sm {
   backdrop-filter: blur(4px);
 }
+
+#movieBackdrop {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+#movieBackdrop .bg-black.bg-opacity-50 {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+}
+
+#trailerModal {
+  background-color: rgba(0, 0, 0, 0.75) !important;
+}
