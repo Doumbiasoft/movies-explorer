@@ -92,6 +92,24 @@ const renderMovies = (movies, containerId) => {
 
 
 
+
+const goHome = () => {
+  const $movieBackdrop = document.querySelector("#movieBackdrop");
+  
+  $detailsView.classList.add("hidden");
+  $homeView.classList.remove("hidden");
+  $heroContent.classList.remove("hidden");
+  $backBtn.classList.add("hidden");
+  $movieBackdrop.classList.add("hidden");
+  $movieBackdrop.style.backgroundImage = "";
+  $searchInput.value = "";
+  $searchSection.classList.add("hidden");
+  document.getElementById("trendingSection").classList.remove("hidden");
+  document.getElementById("popularSection").classList.remove("hidden");
+  currentView = "home";
+};
+
+
 const handleSearchInput = (inputElement) => {
   const query = inputElement.value;
   $searchInput.value = query;
