@@ -88,6 +88,87 @@ const renderMovies = (movies, containerId) => {
 };
 
 
+
+
+
+
+const handleSearchInput = (inputElement) => {
+  const query = inputElement.value;
+  $searchInput.value = query;
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(handleSearch, 300);
+};
+
+const handleSearch = async () => {
+  const query = $searchInput.value.trim();
+  if (!query) {
+    $searchSection.classList.add("hidden");
+    if (currentView === "home") {
+      document.getElementById("trendingSection").classList.remove("hidden");
+      document.getElementById("popularSection").classList.remove("hidden");
+    }
+    return;
+  }
+
+  showLoading(true);
+  if (currentView === "home") {
+    document.getElementById("trendingSection").classList.add("hidden");
+    document.getElementById("popularSection").classList.add("hidden");
+  }
+
+  const results = await searchMovies(query);
+
+  document.getElementById("searchTitle").textContent =
+    'Search Results for "' + query + '"';
+
+  if (results.length > 0) {
+    renderMovies(results, "searchResults");
+    document.getElementById("searchResults").classList.remove("hidden");
+    document.getElementById("noResults").classList.add("hidden");
+  } else {
+    document.getElementById("searchResults").classList.add("hidden");
+    document.getElementById("noResults").classList.remove("hidden");
+  }
+
+  $searchSection.classList.remove("hidden");
+  showLoading(false);
+};
+
+// Event Listeners
+$searchInput.addEventListener("input", () => {
+  handleSearchInput($searchInput);
+});
+
+$backBtn.addEventListener("click", goHome);
+$closeTrailerBtn.addEventListener("click", closeTrailer);
+$trailerModal.addEventListener("click", (e) => {
+  if (e.target === $trailerModal) closeTrailer();
+});
+
+const initApp = async () => {
+  showLoading(true);
+
+  if (API_TOKEN === "API_TOKEN") {
+    alert("Please set your TMDB API Token in the JavaScript code!");
+    showLoading(false);
+    return;
+  }
+
+  try {
+    const [trending, popular] = await Promise.all([
+      fetchTrendingMovies(),
+      fetchPopularMovies(),
+    ]);
+
+    renderMovies(trending, "trendingMovies");
+    renderMovies(popular, "popularMovies");
+  } catch (error) {
+    console.error("Error initializing app:", error);
+  }
+
+  showLoading(false);
+};
+
 (async function () {
   await initApp();
 })();
