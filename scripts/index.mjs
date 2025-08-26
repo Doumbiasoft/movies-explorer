@@ -198,7 +198,7 @@ const openMovieDetails = async (movie) => {
     trailers.slice(1).forEach((video) => {
       const $trailerBtn = document.createElement("button");
       $trailerBtn.className =
-        "block w-full text-left p-3 bg-gray-800 hover:bg-gray-700 text-white rounded-lg";
+        "block w-full text-left p-3 bg-gray-800 hover:bg-gray-700 text-white rounded-lg cursor-pointer";
       $trailerBtn.innerHTML =
         '<div class="flex items-center">' +
         '<svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">' +
