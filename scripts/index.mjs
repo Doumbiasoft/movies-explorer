@@ -79,6 +79,15 @@ const createMovieCard = (movie) => {
   return card;
 };
 
+const renderMovies = (movies, containerId) => {
+  const container = document.getElementById(containerId);
+  container.innerHTML = "";
+  movies.slice(0, 12).forEach((movie) => {
+    container.appendChild(createMovieCard(movie));
+  });
+};
+
+
 (async function () {
   await initApp();
 })();
