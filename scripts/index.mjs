@@ -20,6 +20,7 @@ const $searchSection = document.querySelector("#searchSection");
 const $trailerModal = document.querySelector("#trailerModal");
 const $closeTrailerBtn = document.querySelector("#closeTrailerBtn");
 const $heroContent = document.querySelector("#heroContent");
+const $logo = document.querySelector("#logo");
 
 let currentView = "home";
 let currentMovie = null;
@@ -306,6 +307,9 @@ $trailerModal.addEventListener("click", (e) => {
   if (e.target === $trailerModal) closeTrailer();
 });
 
+$logo.addEventListener("click", () => {
+  window.location.reload();
+});
 const initApp = async () => {
   showLoading(true);
 
