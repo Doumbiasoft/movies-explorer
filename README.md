@@ -2,11 +2,11 @@
 
 A modern, responsive web application for discovering and exploring movies using The Movie Database (TMDB) API. Built with vanilla JavaScript, HTML5, and Tailwind CSS.
 
-## 🌐 Live at: <a href="https://doumbiasoft.github.io/movies-explorer/" title="Try Demo" target="_blank">Try Demo</a>
+## 🌐 Live at: <a href="https://movies-explorer.doumbiasoft.com" title="Try Demo" target="_blank">Try Now</a>
 
 ## Screenshots
 
-[![Try Demo](./images/movie-explorer.png)](https://doumbiasoft.github.io/cat-explorer/)
+[![Try Now](./images/movie-explorer.png)](https://movies-explorer.doumbiasoft.com)
 
 ## Features
 
